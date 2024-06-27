@@ -14,7 +14,8 @@ resource "aws_flow_log" "vpc_flow_log" {
 }
 
 resource "aws_cloudwatch_log_group" "example" {
-  name = "example"
+  name       = "example"
+  kms_key_id = "mykmskey"
 }
 
 data "aws_iam_policy_document" "assume_role" {
