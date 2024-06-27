@@ -1,0 +1,104 @@
+
+Result #1 CRITICAL Custom check failed for resource aws_vpc.main. The required Environment tag was missing 
+────────────────────────────────────────────────────────────────────────────────
+  <DIRECTORY-PATH>
+────────────────────────────────────────────────────────────────────────────────
+    1    resource "aws_vpc" "main" {
+    2      cidr_block           = var.vpc_cidr_block
+    3      enable_dns_hostnames = true
+    4      tags = {
+    5        name = "main"
+    6      }
+    7    }
+────────────────────────────────────────────────────────────────────────────────
+          ID custom-custom-mycustomcheck_tags
+      Impact By not having Environment we can't keep track of billing
+  Resolution Add the Environment tag
+
+  More Information
+  - http://example-org/docs/sec/tagging.html
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 CRITICAL Custom check failed for resource aws_cloudwatch_log_group.example. The required Environment tag was missing 
+────────────────────────────────────────────────────────────────────────────────
+  <DIRECTORY-PATH>
+────────────────────────────────────────────────────────────────────────────────
+   16    resource "aws_cloudwatch_log_group" "example" {
+   17      name       = "example"
+   18      kms_key_id = "mykmskey"
+   19    }
+────────────────────────────────────────────────────────────────────────────────
+          ID custom-custom-mycustomcheck_tags
+      Impact By not having Environment we can't keep track of billing
+  Resolution Add the Environment tag
+
+  More Information
+  - http://example-org/docs/sec/tagging.html
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 CRITICAL Custom check failed for resource aws_iam_role.example. The required Environment tag was missing 
+────────────────────────────────────────────────────────────────────────────────
+  <DIRECTORY-PATH>
+────────────────────────────────────────────────────────────────────────────────
+   34    resource "aws_iam_role" "example" {
+   35      name               = "example"
+   36      assume_role_policy = data.aws_iam_policy_document.assume_role.json
+   37    }
+────────────────────────────────────────────────────────────────────────────────
+          ID custom-custom-mycustomcheck_tags
+      Impact By not having Environment we can't keep track of billing
+  Resolution Add the Environment tag
+
+  More Information
+  - http://example-org/docs/sec/tagging.html
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #4 CRITICAL Custom check failed for resource aws_flow_log.vpc_flow_log. The required Environment tag was missing 
+────────────────────────────────────────────────────────────────────────────────
+  <DIRECTORY-PATH>
+────────────────────────────────────────────────────────────────────────────────
+    9    resource "aws_flow_log" "vpc_flow_log" {
+   10      iam_role_arn    = aws_iam_role.example.arn
+   11      log_destination = aws_cloudwatch_log_group.example.arn
+   12      traffic_type    = "ALL"
+   13      vpc_id          = aws_vpc.main.id
+   14    }
+────────────────────────────────────────────────────────────────────────────────
+          ID custom-custom-mycustomcheck_tags
+      Impact By not having Environment we can't keep track of billing
+  Resolution Add the Environment tag
+
+  More Information
+  - http://example-org/docs/sec/tagging.html
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             15.4451ms
+  parsing              529.9µs
+  adaptation           534.2µs
+  checks               13.2548ms
+  total                29.764ms
+
+  counts
+  ──────────────────────────────────────────
+  modules downloaded   0
+  modules processed    1
+  blocks processed     7
+  files read           2
+
+  results
+  ──────────────────────────────────────────
+  passed               4
+  ignored              0
+  critical             4
+  high                 0
+  medium               0
+  low                  0
+
+  4 passed, 4 potential problem(s) detected.
+

@@ -1,0 +1,18 @@
+---
+checks:
+- code: MYCUSTOMCHECK_TAGS
+  description: Custom check to ensure the Environment tag is applied to All resources
+  impact: By not having Environment we can't keep track of billing
+  resolution: Add the Environment tag
+  requiredTypes:
+  - resource
+  requiredLabels:
+  - aws_*
+  severity: CRITICAL
+  matchSpec:
+    name: tags
+    action: contains
+    value: Environment
+  errorMessage: The required Environment tag was missing
+  relatedLinks:
+  - http://example-org/docs/sec/tagging.html
